@@ -1,0 +1,100 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    environment:
+      POSTGRES_USER: nilesh
+      POSTGRES_PASSWORD: nilesh
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5431:5432
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: ms_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False' # Corrected typo
+    volumes:
+      - pgadmin:/var/lib/pgadmin  # Corrected volume mapping
+    ports:
+      - 5050:80
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+  # mongodb:
+  #   container_name: ms_mongo_db
+  #   image: mongo
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mongo:/data/db
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin  # Replace with your desired username
+  #     MONGO_INITDB_ROOT_PASSWORD: pass  # Replace with your desired password
+  #   restart: unless-stopped
+
+  # mongo-express:
+  #   container_name: ms_mongo_express
+  #   image: mongo-express
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: admin  # Assuming you set username in mongodb
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: pass  # Assuming you set password in mongodb
+  #     ME_CONFIG_MONGODB_SERVER: mongodb
+  #     # Consider alternative authentication if not using root user
+  #   networks:
+  #     - microservices-net
+
+
+
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo-server
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: q
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: rootpassword
+    links:
+      - mongo-db
+    networks:
+      - microservices-net
+
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-server
+    environment:
+      MONGO_INITDB_DATABASE: demodb  
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      -  microservices-net
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  mongodb_data_container:
