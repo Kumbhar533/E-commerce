@@ -9,6 +9,6 @@ spring:
       server:
         native:
           search-locations:
-          - classpath:/configurations
+          - classpath:/configurations         
 server:
   port: 8888
