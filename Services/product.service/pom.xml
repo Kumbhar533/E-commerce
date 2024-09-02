@@ -51,6 +51,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+<dependency>
+    <groupId>com.yourcompany.common</groupId>
+    <artifactId>common-code</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>

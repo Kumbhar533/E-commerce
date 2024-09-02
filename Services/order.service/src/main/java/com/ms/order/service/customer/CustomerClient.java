@@ -12,7 +12,6 @@ import com.ms.order.service.request.response.CustomerResponse;
 public interface CustomerClient {
 
 	@GetMapping("${/{customer-id}}")
-
 	Optional<CustomerResponse> findCustomerById(@PathVariable("customer-id") String customerId);
 
 }

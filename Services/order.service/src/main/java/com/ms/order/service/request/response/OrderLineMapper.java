@@ -1,8 +1,11 @@
 package com.ms.order.service.request.response;
 
+import org.springframework.stereotype.Service;
+
 import com.ms.order.service.order.Order;
 import com.ms.order.service.orderline.OrderLine;
 
+@Service
 public class OrderLineMapper {
 
 	public OrderLine toOrderLine(OrderLineRequest orderLineRequest) {

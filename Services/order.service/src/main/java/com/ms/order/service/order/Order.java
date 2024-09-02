@@ -13,6 +13,8 @@ import com.ms.order.service.orderline.OrderLine;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -41,6 +43,7 @@ public class Order {
 
 	private BigDecimal totalAmonut;
 
+	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 
 	private String customerId;
